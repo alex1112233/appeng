@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<web-app>
+    <servlet>
+        <servlet-name>guestbook</servlet-name>
+        <servlet-class>be.post.web.UserBook</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sign</servlet-name>
+        <servlet-class>be.post.web.DataService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>guestbook</servlet-name>
+        <url-pattern>/guestbook</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>sign</servlet-name>
+        <url-pattern>/sign</url-pattern>
+    </servlet-mapping>
+<welcome-file-list>
+        <welcome-file>tta.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
