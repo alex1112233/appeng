@@ -1,0 +1,83 @@
+Group Id: com.google.appengine
+Artifact Id: appengine-maven-plugin
+Version: 1.9.4
+Goal Prefix: appengine
+
+This plugin has 24 goals:
+
+appengine:backends_configure
+  Description: Configure the specified backend.
+
+appengine:backends_delete
+  Description: Delete the specified backend.
+
+appengine:backends_rollback
+  Description: Roll back a previously in-progress update.
+
+appengine:backends_start
+  Description: Start the specified backend.
+
+appengine:backends_stop
+  Description: Stop the specified backend.
+
+appengine:backends_update
+  Description: Update the specified backend or all backends.
+
+appengine:debug
+  Description: Debug the specified VM Runtime instance.
+
+appengine:devserver
+  Description: Runs the App Engine development server.
+
+appengine:devserver_start
+  Description: Starts the App Engine development server and does not wai
+
+appengine:devserver_stop
+  Description: Stops the App Engine development server.
+
+appengine:endpoints_get_client_lib
+  Description: App Engine endpoints get-client-lib ... command.
+
+appengine:endpoints_get_discovery_doc
+  Description: App Engine endpoints get-discovery-doc command.
+
+appengine:enhance
+  Description: Runs the datanucleus enhancer.
+
+appengine:rollback
+  Description: Rollback an in-progress update.
+
+appengine:set_default_version
+  Description: Set the default serving version.
+
+appengine:start_module_version
+  Description: Start the specified module version.
+
+appengine:stop_module_version
+  Description: Stop the specified module version.
+
+appengine:update
+  Description: Create or update an app version.
+
+appengine:update_cron
+  Description: Update application cron jobs.
+
+appengine:update_dispatch
+  Description: Update application dispatch.xml.
+
+appengine:update_dos
+  Description: Update application DoS protection configuration.
+
+appengine:update_indexes
+  Description: Update application indexes.
+
+appengine:update_queues
+  Description: Update application task queue definitions.
+
+appengine:vacuum_indexes
+  Description: Delete unused indexes from application.
+
+For more information, run 'mvn help:describe [...] -Ddetail'
+
+proxy:
+-Dhttp.proxySet=true -Dhttp.proxyHost=proxy.pxpost.netpost -Dhttp.proxyPort=8080 -Dhttp.proxyUser=CITS016 -Dhttp.proxyPassword=C1ts016 -Dhttps.proxySet=true -Dhttps.proxyHost=proxy.pxpost.netpost -Dhttps.proxyPort=8080 -Dhttps.proxyUser=CITS016 -Dhttps.proxyPassword=C1ts016

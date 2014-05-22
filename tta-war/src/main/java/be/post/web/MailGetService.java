@@ -30,7 +30,7 @@ public class MailGetService extends HttpServlet {
 			Key key = KeyFactory.createKey("MailMessage", UUID.randomUUID().toString());
 			Entity mail = new Entity("Mail", key);
 			   
-			mail.setProperty("content", content);
+			mail.setProperty("content", content.toString());
 
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			datastore.put(mail);		
