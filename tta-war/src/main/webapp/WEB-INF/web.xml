@@ -7,6 +7,10 @@
 		<servlet-class>be.post.web.UserBook</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>geturl</servlet-name>
+		<servlet-class>be.post.web.UrlRenderService</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>sign</servlet-name>
 		<servlet-class>be.post.web.DataService</servlet-class>
 	</servlet>
@@ -32,6 +36,10 @@
 	<servlet-mapping>
 		<servlet-name>sign</servlet-name>
 		<url-pattern>/sign</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>geturl</servlet-name>
+		<url-pattern>/geturl</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
