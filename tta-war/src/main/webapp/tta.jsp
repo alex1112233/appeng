@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+<p><img alt="bpost" src="http://www.bpost.be/site/nl/_images/logo_bpost_landing.jpg" border="0" complete="complete"/></p>
 <%
     String guestbookName = request.getParameter("guestbookName");
     if (guestbookName == null) {

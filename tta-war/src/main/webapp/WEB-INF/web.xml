@@ -25,6 +25,10 @@
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>logs</servlet-name>
+		<servlet-class>be.post.logs.LogServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>RemoteApiServlet</servlet-name>
 		<url-pattern>/remote_api</url-pattern>
@@ -36,6 +40,10 @@
 	<servlet-mapping>
 		<servlet-name>sign</servlet-name>
 		<url-pattern>/sign</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>logs</servlet-name>
+		<url-pattern>/logs</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>geturl</servlet-name>
