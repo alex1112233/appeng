@@ -35,7 +35,7 @@ public class GsonTest {
 		for (int i = 0; i < jsonArray.size(); i++) {
 			 JsonElement jsonElement = jsonArray.get(i);
 		 System.out.println( jsonElement.getAsJsonObject().get("name") + " : " +  jsonElement.getAsJsonObject().get("value"));
-		 if(jsonElement.getAsJsonObject().get("name").equals("User-Agent")){
+		 if(jsonElement.getAsJsonObject().get("name").getAsString().equals("User-Agent")){
 			 
 			 System.out.println("found : " +  jsonElement.getAsJsonObject().get("value"));
 		 }
