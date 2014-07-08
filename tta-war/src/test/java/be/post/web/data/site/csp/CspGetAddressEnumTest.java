@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import be.post.web.data.sites.csp.CspGetAddress;
 
-public class CspGetAddressTest {
+public class CspGetAddressEnumTest {
 
 	@Test
 	public void testPostAddress() throws Exception {
-		CspGetAddress.postAddress(true);
+		CspGetAddress.postAddressEnum(true);
 	}
 
 }

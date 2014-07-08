@@ -6,7 +6,7 @@ public class CspHttpRequests {
 
 	public  class Request0 {
 
-		public String url = "http://csp-ac2.netpost/csp/ai/aiRequest.do";
+		public String url = "http://csp-st1.netpost/csp/ai/aiRequest.do";
 		public String method = "POST";
 		public String post_recipient = "";
 		public String post_company = "";
@@ -29,7 +29,7 @@ public class CspHttpRequests {
 
 	public class Request1 {
 
-		public String url = "http://csp-ac2.netpost/csp/ai/aiRequest.do?method=investigate";
+		public String url = "http://csp-st1.netpost/csp/ai/aiRequest.do?method=investigate";
 		public String method = "POST";
 		public String qrystr_method = "investigate";
 		public String post_recipient = "";
