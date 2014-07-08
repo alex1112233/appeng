@@ -78,4 +78,3 @@ static Gson gson = new Gson();
 		return sb.toString();
 	}
 }
-
