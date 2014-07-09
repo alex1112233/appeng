@@ -9,7 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReqRespEnumCreatorTest {
+public class ReqRespVelocityCreatorTest {
 
 	String jsonStr = "";
 	
@@ -30,7 +30,7 @@ public class ReqRespEnumCreatorTest {
 	@Test
 	public void test() {
 		
-	System.out.println( ReqRespVelocityCreator.create("MyClassEnum", jsonStr)); 
+	System.out.println( ReqRespEnumCreator.create("MyClassEnum", jsonStr)); 
 		
 	}
 

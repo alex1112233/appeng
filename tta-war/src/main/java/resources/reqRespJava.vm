@@ -1,0 +1,86 @@
+public static void postAddressEnum(boolean useFiddlerProxy) throws Exception {		
+		
+		CspHttpReqEnum cspHttpRequests = new CspHttpReqEnum();
+		
+		HttpPost httpPost = new HttpPost(CspHttpReqEnum.Request0.url);
+		httpPost.addHeader("User-Agent", "$userAgent");
+		 BasicCookieStore cookieStore = new BasicCookieStore();
+		 
+	        CloseableHttpClient httpclient = null;
+	        
+	        if(useFiddlerProxy){
+	        	
+	        HttpHost proxy = new HttpHost("127.0.0.1", 8888, "http"); 	
+	        httpclient = HttpClients.custom()
+	                .setDefaultCookieStore(cookieStore)
+	                .setProxy(proxy)
+	                .build();
+	        }else{
+	        	httpclient = HttpClients.custom()
+		                .setDefaultCookieStore(cookieStore)		                
+		                .build();
+	        }
+	        
+	        #foreach( $request in $requestList ) 
+	        $foreach.count - $request.Url 
+	           #set ($map = $request.getPostParams())
+	           #foreach ($mapEntry in $map.entrySet())
+    				<name>$mapEntry.key</name>
+    				<value>$mapEntry.value</value>
+			   #end
+	         #end
+	        try {	        
+	            HttpGet httpget = new HttpGet(CspHttpReqEnum.Request0.url);
+	            httpget.addHeader("User-Agent", "$userAgent");
+	            CloseableHttpResponse response1 = httpclient.execute(httpget);
+	            try {
+	                HttpEntity entity = response1.getEntity();
+
+	                System.out.println("Login form get: " + response1.getStatusLine());
+	                EntityUtils.consume(entity);
+
+	                System.out.println("Initial set of cookies:");
+	                List<Cookie> cookies = cookieStore.getCookies();
+	                if (cookies.isEmpty()) {
+	                    System.out.println("None");
+	                } else {
+	                    for (int i = 0; i < cookies.size(); i++) {
+	                        System.out.println("- " + cookies.get(i).toString());
+	                    }
+	                }
+	            } finally {
+	                response1.close();
+	            }
+
+	            HttpUriRequest login = RequestBuilder.post()
+	                    .setUri(new URI(CspHttpReqEnum.Request0.url))
+	                    .addParameter(CspHttpReqEnum.Request0.post_street.p_name(), CspHttpReqEnum.Request0.post_street.p_value())
+	                    .addParameter(CspHttpReqEnum.Request0.post_poBoxSearch.p_name(), CspHttpReqEnum.Request0.post_poBoxSearch.p_value())
+	                    .addParameter(CspHttpReqEnum.Request0.post_number.p_name(), CspHttpReqEnum.Request0.post_number.p_value())
+	                     .addParameter(CspHttpReqEnum.Request0.post_method.p_name(), CspHttpReqEnum.Request0.post_method.p_value())
+	                    .addParameter(CspHttpReqEnum.Request0.post_postalCode.p_name(), CspHttpReqEnum.Request0.post_postalCode.p_value())
+	                    .build();
+	            CloseableHttpResponse response2 = httpclient.execute(login);
+	            try {
+	                HttpEntity entity = response2.getEntity();
+
+	                System.out.println("Login form get: " + response2.getStatusLine());
+	                EntityUtils.consume(entity);
+
+	                System.out.println("Post logon cookies:");
+	                List<Cookie> cookies = cookieStore.getCookies();
+	                if (cookies.isEmpty()) {
+	                    System.out.println("None");
+	                } else {
+	                    for (int i = 0; i < cookies.size(); i++) {
+	                        System.out.println("- " + cookies.get(i).toString());
+	                    }
+	                }
+	            } finally {
+	                response2.close();
+	            }
+	        } finally {
+	            httpclient.close();
+	        }
+	        
+	}
