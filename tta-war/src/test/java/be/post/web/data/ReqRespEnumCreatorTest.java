@@ -30,7 +30,7 @@ public class ReqRespEnumCreatorTest {
 	@Test
 	public void test() {
 		
-	System.out.println( ReqRespVelocityCreator.create("MyClassEnum", jsonStr)); 
+	System.out.println( ReqRespEnumCreator.create("MyClassEnum", jsonStr)); 
 		
 	}
 

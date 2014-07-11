@@ -58,25 +58,30 @@ static Gson gson = new Gson();
 			
 			JsonElement jsonElement = jsonArrayEntries.get(i).getAsJsonObject().get("request");
 			
-			httpReq.setUrl(jsonElement.getAsJsonObject().get("url").toString());
-			httpReq.setMethod(jsonElement.getAsJsonObject().get("method").toString());
+			httpReq.setUrl(jsonElement.getAsJsonObject().get("url").toString().replaceAll("\"", ""));
+			httpReq.setMethod(jsonElement.getAsJsonObject().get("method").toString().replaceAll("\"", ""));
 		
-			JsonArray jsonArrayQryStr = jsonElement.getAsJsonObject().get("queryString").getAsJsonArray();
-			for (int k = 0; k < jsonArrayQryStr.size(); k++){
+			if(jsonElement.getAsJsonObject().get("queryString")!=null){
+			  JsonArray jsonArrayQryStr = jsonElement.getAsJsonObject().get("queryString").getAsJsonArray();
+			  for (int k = 0; k < jsonArrayQryStr.size(); k++){
 				
 				httpReq.getQryParams().put(jsonArrayQryStr.get(k).getAsJsonObject().get("name").getAsString().replaceAll("\"", ""),
 						     jsonArrayQryStr.get(k).getAsJsonObject().get("value").getAsString().replaceAll("\"", ""));
-				}
+			  }
+			}
 			
-			JsonArray jsonArrayPost = jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params").getAsJsonArray();
-			for (int k = 0; k < jsonArrayPost.size(); k++){
+			if(jsonElement.getAsJsonObject().get("postData")!=null){
+				if(jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params")!=null){	
+			  JsonArray jsonArrayPost = jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params").getAsJsonArray();
+			  for (int k = 0; k < jsonArrayPost.size(); k++){
 				
 				httpReq.getPostParams().put (jsonArrayPost.get(k).getAsJsonObject().get("name").getAsString().replaceAll("\"", ""),
 						       jsonArrayPost.get(k).getAsJsonObject().get("value").getAsString().replaceAll("\"", ""));
-			}
-			
-			requestList.add(httpReq);
-			
+			  }
+			}		  
+				
+			  }
+			 requestList.add(httpReq);
 		}
 		
 		context.put("requestList",requestList);

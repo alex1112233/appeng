@@ -81,3 +81,9 @@ For more information, run 'mvn help:describe [...] -Ddetail'
 
 proxy:
 -Dhttp.proxySet=true -Dhttp.proxyHost=proxy.pxpost.netpost -Dhttp.proxyPort=8080 -Dhttp.proxyUser=CITS016 -Dhttp.proxyPassword=C1ts016 -Dhttps.proxySet=true -Dhttps.proxyHost=proxy.pxpost.netpost -Dhttps.proxyPort=8080 -Dhttps.proxyUser=CITS016 -Dhttps.proxyPassword=C1ts016
+
+mvn sources & doc:
+When you're using Maven in an IDE you often find the need for your IDE to resolve source code and Javadocs for your library dependencies. There's an easy way to accomplish that goal.
+mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+mvn eclipse:eclipse
