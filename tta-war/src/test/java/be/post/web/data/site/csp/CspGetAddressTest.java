@@ -10,7 +10,7 @@ public class CspGetAddressTest {
 
 	@Test
 	public void testPostAddress() throws Exception {
-		CspGetAddress.httpInteract(false);
+		CspGetAddress.httpInteract(true);
 	}
 
 }

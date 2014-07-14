@@ -9,6 +9,8 @@ public class HttpReq {
 	private String url, method;
 	private Map<String, String> qryParams= new LinkedHashMap<String, String>();
 	private Map<String, String> postParams= new LinkedHashMap<String, String>();
+	private Map<String, String> multipartParams= new LinkedHashMap<String, String>();
+	
 	
 	public String getUrl() {
 		return url;
@@ -33,6 +35,12 @@ public class HttpReq {
 	}
 	public void setPostParams(Map<String, String> postParams) {
 		this.postParams = postParams;
+	}
+	public Map<String, String> getMultipartParams() {
+		return multipartParams;
+	}
+	public void setMultipartParams(Map<String, String> multipartParams) {
+		this.multipartParams = multipartParams;
 	}
 	
 	

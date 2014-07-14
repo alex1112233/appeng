@@ -72,13 +72,21 @@ static Gson gson = new Gson();
 			
 			if(jsonElement.getAsJsonObject().get("postData")!=null){
 				if(jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params")!=null){	
-			  JsonArray jsonArrayPost = jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params").getAsJsonArray();
-			  for (int k = 0; k < jsonArrayPost.size(); k++){
+			      JsonArray jsonArrayPost = jsonElement.getAsJsonObject().get("postData").getAsJsonObject().get("params").getAsJsonArray();
+			      for (int k = 0; k < jsonArrayPost.size(); k++){
 				
-				httpReq.getPostParams().put (jsonArrayPost.get(k).getAsJsonObject().get("name").getAsString().replaceAll("\"", ""),
+				    httpReq.getPostParams().put (jsonArrayPost.get(k).getAsJsonObject().get("name").getAsString().replaceAll("\"", ""),
 						       jsonArrayPost.get(k).getAsJsonObject().get("value").getAsString().replaceAll("\"", ""));
-			  }
-			}		  
+			  		}
+				}else{ // "params" is null so it should be multipart submit
+					
+					 JsonObject jsonArrayMultipartPost = jsonElement.getAsJsonObject().get("postData").getAsJsonObject();				     
+					
+					    httpReq.getMultipartParams().put ("text",
+					    		jsonArrayMultipartPost.getAsJsonObject().get("text").getAsString());
+				  		
+				 	
+				}
 				
 			  }
 			 requestList.add(httpReq);

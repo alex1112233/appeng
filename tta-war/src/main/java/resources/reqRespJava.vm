@@ -19,11 +19,42 @@ public static void httpInteract(boolean useFiddlerProxy) throws Exception {
 	        
 	        #foreach( $request in $requestList ) 
 	        
+	        
 	        //request$foreach.count - $request.Url 
+	        
+	        ##check if this is a multipart request	and setup $continueCurrentLoop   
+	        
+	        #set($continueCurrentLoop = true)     
+	        #set ($mapMutlipart = $request.getMultipartParams().size())
+	        #if($mapMutlipart>0)   ##checking if there any multipart params
+	       
+	           HttpPost httppost${foreach.count} = new HttpPost("$request.Url");
+	           ContentBody content = new InputStreamBody(null, "file");
+
+               HttpEntity reqEntity$foreach.count = MultipartEntityBuilder.create()
+                   .addPart("file", content)                   
+                   .build();
+	            httppost${foreach.count}.setEntity(reqEntity${foreach.count});
+	           CloseableHttpResponse response${foreach.count} = httpclient.execute(httppost${foreach.count}); 
+	          try{  
+	           HttpEntity resEntity${foreach.count} = response${foreach.count}.getEntity();
+	           EntityUtils.consume(resEntity${foreach.count});
+	         }finally{
+	             response${foreach.count}.close();
+	         }  
+	         
+	        #set($continueCurrentLoop = false)   
+	        #end
+	        
+	        #if($continueCurrentLoop)   ## get/post if block start
 	        HttpUriRequest req$foreach.count = RequestBuilder#if($request.method=="POST").post()#else.get()#end
 	                       
 	                       .setUri(new URI("$request.Url"))
 	                       .addHeader("User-Agent", "$userAgent")
+	           #set ($map = $request.getQryParams())
+	           #foreach ($mapEntry in $map.entrySet())
+	                       .addParameter("$mapEntry.key", "$mapEntry.value")    				
+			   #end            
 	           #set ($map = $request.getPostParams())
 	           #foreach ($mapEntry in $map.entrySet())
 	                       .addParameter("$mapEntry.key", "$mapEntry.value")    				
@@ -46,6 +77,7 @@ public static void httpInteract(boolean useFiddlerProxy) throws Exception {
 	            }      
 	         #end
 	      
+	        #end  ## get/post if block end
 	        } finally {
 	            httpclient.close();
 	        }
