@@ -25,6 +25,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import be.post.activemq.MqClient;
+import be.post.web.data.RegexUtils;
+
 import com.google.appengine.repackaged.org.apache.http.entity.ContentType;
 
 public class CspGetAddress {
@@ -428,5 +431,142 @@ public class CspGetAddress {
 			"	</Address>" + 
 			"	" + 
 			"</AddressInterpretationRequest>";
-
+	
+	
+	public static void httpCaptcher(boolean useFiddlerProxy) throws Exception {		
+		
+		
+		 BasicCookieStore cookieStore = new BasicCookieStore();		 
+	     CloseableHttpClient httpclient = null;
+	     try{   
+	        if(useFiddlerProxy){
+	        	
+	        HttpHost proxy = new HttpHost("127.0.0.1", 8888, "http"); 	
+	        httpclient = HttpClients.custom()
+	                .setDefaultCookieStore(cookieStore)
+	                .setProxy(proxy)
+	                .build();
+	        }else{
+	        	httpclient = HttpClients.custom()
+		                .setDefaultCookieStore(cookieStore)		                
+		                .build();
+	        }
+	        
+	        	        
+	        
+	        //request1 - http://csp-dv2.netpost/csp/pub/validateAddress.do?lang=fr 
+	        
+	        	        
+	        	        	        
+	           	        HttpUriRequest req1 = RequestBuilder.get()	                       
+	                       .setUri(new URI("http://csp-dv2.netpost/csp/pub/validateAddress.do?lang=fr"))
+	                       .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:30.0) Gecko/20100101 Firefox/30.0")
+	           	           	                       .addParameter("lang", "fr")    				
+			   	           			               .build();
+			        
+			   CloseableHttpResponse resp1 = httpclient.execute(req1); 
+			           
+			   try{            
+			        
+			        HttpEntity entity1 = resp1.getEntity();	                
+	                StringWriter writer1 = new StringWriter();
+	                IOUtils.copy(entity1.getContent(), writer1, "UTF-8");
+	              	                
+	                System.out.println("resp1 status: " + resp1.getStatusLine() + writer1.toString());
+	                EntityUtils.consume(entity1);
+	               
+	            } finally {
+	                resp1.close();
+	            }      
+	         	      
+	        	        
+	        
+	        //request2 - http://csp-dv2.netpost/csp/pub/validateAddress.do 
+	        
+	        	        
+	        	        	        
+	           	        HttpUriRequest req2 = RequestBuilder.post()	                       
+	                       .setUri(new URI("http://csp-dv2.netpost/csp/pub/validateAddress.do"))
+	                       .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:30.0) Gecko/20100101 Firefox/30.0")
+	           	           	           	                       .addParameter("org.apache.struts.taglib.html.TOKEN", "441a94d8553ee1ceb3cff0a5b7eb4eee")    				
+			   	                       .addParameter("lang", "fr")    				
+			   	                       .addParameter("mode", "street")    				
+			   	                       .addParameter("correlationKey", "")    				
+			   	                       .addParameter("method", "validateAddress")    				
+			   	                       .addParameter("street", "wetstraat")    				
+			   	                       .addParameter("houseNumber", "1")    				
+			   	                       .addParameter("boxNumber", "")    				
+			   	                       .addParameter("poBoxNumber", "")    				
+			   	                       .addParameter("postalCode", "1000")    				
+			   	                       .addParameter("city", "")    				
+			   			               .build();
+			        
+			   CloseableHttpResponse resp2 = httpclient.execute(req2); 
+			   
+			   String captureResp = null;
+			   String captureReq = null;
+			           
+			   try{            
+			        
+			        HttpEntity entity2 = resp2.getEntity();	                
+	                StringWriter writer2 = new StringWriter();
+	                IOUtils.copy(entity2.getContent(), writer2, "UTF-8");
+	              	                
+	                System.out.println("resp2 status: " + resp2.getStatusLine() + writer2.toString());
+	                
+	                captureReq = RegexUtils.getFirstMatch( writer2.toString(), "iframe src=\"(.*?)\"", 1);
+	                System.out.println("captcha url found: " + captureReq);
+	                
+	                captureResp = MqClient.getSyncResp("tcp://L211396:61616", "test", captureReq, 100000);
+	                
+	                EntityUtils.consume(entity2);
+	               
+	            } finally {
+	                resp2.close();
+	            }      
+	         	      
+	        	        
+	        
+	        //request3 - http://csp-dv2.netpost/csp/pub/validateAddress.do 
+	        
+	        	        
+	        	        	        
+	           	        HttpUriRequest req3 = RequestBuilder.post()	                       
+	                       .setUri(new URI("http://csp-dv2.netpost/csp/pub/validateAddress.do"))
+	                       .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:30.0) Gecko/20100101 Firefox/30.0")
+	           	           	           .addParameter("org.apache.struts.taglib.html.TOKEN", "441a94d8553ee1ceb3cff0a5b7eb4eee")    				
+			   	                       .addParameter("lang", "fr")    				
+			   	                       .addParameter("mode", "street")    				
+			   	                       .addParameter("correlationKey", "Casper.1405348182251.18.19001163025987")    				
+			   	                       .addParameter("method", "investigate")    				
+			   	                       .addParameter("street", "wetstraat")    				
+			   	                       .addParameter("houseNumber", "1")    				
+			   	                       .addParameter("boxNumber", "")    				
+			   	                       .addParameter("poBoxNumber", "")    				
+			   	                       .addParameter("postalCode", "1000")    				
+			   	                       .addParameter("city", "")    				
+			   	                       .addParameter("feedback", "test comment")    				
+			   	                       .addParameter("recaptcha_challenge_field", captureReq)    				
+			   	                       .addParameter("recaptcha_response_field", captureResp)    				
+			   			               .build();
+			        
+			   CloseableHttpResponse resp3 = httpclient.execute(req3); 
+			           
+			   try{            
+			        
+			        HttpEntity entity3 = resp3.getEntity();	                
+	                StringWriter writer3 = new StringWriter();
+	                IOUtils.copy(entity3.getContent(), writer3, "UTF-8");
+	              	                
+	                System.out.println("resp3 status: " + resp3.getStatusLine() + writer3.toString());
+	                EntityUtils.consume(entity3);
+	               
+	            } finally {
+	                resp3.close();
+	            }      
+	         	      
+	          	        } finally {
+	            httpclient.close();
+	        }
+	}
 }

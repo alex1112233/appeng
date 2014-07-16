@@ -19,7 +19,7 @@ public class ReqRespVelocityCreatorTest {
 	public void setup() {
 		
 	  try {
-		jsonStr = FileUtils.readFileToString(new File("C:/Users/u353002/git/projW/tta-war/src/main/java/resources/cspFileUpload.json"));
+		jsonStr = FileUtils.readFileToString(new File("C:/Users/u353002/git/projW/tta-war/src/main/java/resources/cspCaptcher.json"));
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
