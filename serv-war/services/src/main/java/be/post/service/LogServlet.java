@@ -38,6 +38,7 @@ public class LogServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		  PrintWriter writer = response.getWriter();
 		  
+		  
 		  String text = "nothing received";
 		  try {
               // Create a ConnectionFactory

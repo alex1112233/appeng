@@ -11,9 +11,22 @@
   	<description></description>
   	<servlet-class>be.post.service.LogServlet</servlet-class>
   </servlet>
+  
+  
+  <servlet>
+  	<servlet-name>ImageRenderingServlet</servlet-name>
+  	<display-name>ImageRenderingServlet</display-name>
+  	<description></description>
+  	<servlet-class>be.post.service.ImageRenderingServlet</servlet-class>
+  </servlet>
 
 	<servlet-mapping>
 		<servlet-name>LogServlet</servlet-name>
 		<url-pattern>/LogServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ImageRenderingServlet</servlet-name>
+		<url-pattern>/getReq</url-pattern>
 	</servlet-mapping>
 </web-app>
