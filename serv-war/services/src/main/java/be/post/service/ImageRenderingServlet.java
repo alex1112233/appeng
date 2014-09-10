@@ -73,14 +73,14 @@ public class ImageRenderingServlet extends HttpServlet {
                   
                   httpSession.setAttribute(requestId, requestTO);
                   
-                  writer.print("{'requestId':'" + requestId +"', 'message':'" + text +"'}");
+                  writer.print("{\"requestId\":\"" + requestId +"\", \"message\":\"" + text +"\"}");
                   
                  
                  
                   
               } else {
                   System.out.println("Received: " + messageRec);
-                  writer.print("no_valid_request");
+                  writer.print("{\"message\":\"no_valid_request\"}");
               }
 
               consumer.close();

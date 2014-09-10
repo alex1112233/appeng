@@ -1,24 +1,29 @@
 <html>
+<head>
 <script src="script/jquery-1.11.1.js"></script>
 <script>
 
-$(document).ready(function(){
-	  $("button").click(function(){
-	    $("#div1").load("getReq");
-	  });
-	});
-</script>
+$(document).ready(function() {
+    $("#driver").click(function(event){
+        $.getJSON('getReq', function(jd) {
+           $('#stage').html('<p> Message: ' + jd.message + '</p>');
+           $('#stage').append('<p>requestId : ' + jd.requestId+ '</p>');
+       //    $('#stage').append('<p> Message: ' + jd.message + '</p>');
+           $("#myimg").attr("src", jd.message);
+        });
+    });
+ });
+ </script>
 </head>
 <body>
-
-<p class="click">If you click on me, I will disappear not others.</p>
-<p>Click me away!</p>
-<p>Click me too!</p>
-
-
-<h5>Csp address validation</h5>
-
-<div id="div1"><h2>CSP request</h2></div>
-<button>Get Req Content</button>
+ <p>Click on the button to load result.html file:</p>
+ <div id="stage" style="background-color:blue;">
+        STAGE
+ </div>
+ <div>
+      <img id="myimg" src="" alt="Sample image" />
+   </div>
+ <input type="button" id="driver" value="Load Data" />
 </body>
 </html>
+
