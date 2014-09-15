@@ -9,21 +9,42 @@ $(document).ready(function() {
            $('#stage').html('<p> Message: ' + jd.message + '</p>');
            $('#stage').append('<p>requestId : ' + jd.requestId+ '</p>');
        //    $('#stage').append('<p> Message: ' + jd.message + '</p>');
-           $("#myimg").attr("src", jd.message);
+           $("#frame").attr("src", jd.message);
+           $("#reqId").attr("value", jd.requestId);          
         });
     });
+    
+    $("#sender").click(function(event){
+    	
+    	$.post( "sendResp", { reqId:  $("#reqId").attr("value"), text: $("#captResp").val() })
+    	  .done(function( data ) {
+    	    alert( "Data Loaded: " + data );
+    	  });
+    	
+    });
+    
+    
  });
  </script>
 </head>
 <body>
  <p>Click on the button to load result.html file:</p>
- <div id="stage" style="background-color:blue;">
+ <div id="stage" style="background-color:grey;">
         STAGE
  </div>
+ 
+ 
  <div>
+ <iframe id="frame"  src="http://google.com" width="1200" height="200" scrolling="yes"></iframe>
       <img id="myimg" src="" alt="Sample image" />
    </div>
  <input type="button" id="driver" value="Load Data" />
+ 
+ <input id="captResp" type="text" />
+ <input id="reqId" type="hidden" />
+ <input type="button" id="sender" value="Send Data" />
+ 
+ 
 </body>
 </html>
 

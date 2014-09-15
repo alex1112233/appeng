@@ -26,5 +26,6 @@
   <modules>
     <module>tta-war</module>
     <module>tta-ear</module>
+    <module>gwtweb</module>
   </modules>
 </project>

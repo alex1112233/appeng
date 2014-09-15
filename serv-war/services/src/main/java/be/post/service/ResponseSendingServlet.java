@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -30,8 +31,13 @@ public class ResponseSendingServlet extends HttpServlet {
 		  
 		PrintWriter writer = response.getWriter();
 		  
-		  
-		  String text = "nothing received";
+		HttpSession httpSession = request.getSession();
+		Object requestTO = httpSession.getAttribute(request.getParameter("reqId"));
+		
+		if(requestTO instanceof RequestTO){
+			
+		
+		 
 		  try {
               // Create a ConnectionFactory
               ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://L211396:61616");
@@ -43,41 +49,14 @@ public class ResponseSendingServlet extends HttpServlet {
               // Create a Session
               Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-              // Create the destination (Topic or Queue)
-              Destination destination = session.createQueue("test");           
-              
-              // Create a MessageConsumer from the Session to the Topic or Queue
-              MessageConsumer consumer = session.createConsumer(destination);
+              MessageProducer producer = session.createProducer( ((RequestTO) requestTO).getReplyJmsDestination());
+              producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
-              // Wait for a message
-              Message messageRec = consumer.receive(100000);
-
-              if (messageRec instanceof TextMessage) {
-                  TextMessage textMessage = (TextMessage) messageRec;
-                  text = textMessage.getText();
-                  System.out.println("Received: " + text);
-                  
-                  // Create a MessageProducer from the Session to the Topic or Queue
-                  MessageProducer producer = session.createProducer( messageRec.getJMSReplyTo());
-                  producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-                  // Create a messages
-                  String replyText = "reply to the message: " + text;
-                  TextMessage message = session.createTextMessage(replyText);
-                 
-
-                  // Tell the producer to send the message
-                  System.out.println("Sent message: "+ message.hashCode() );
-                  producer.send(message);
-                  producer.close();
-                 
-                  
-              } else {
-                  System.out.println("Received: " + messageRec);
-              }
-
-              consumer.close();
-
+              // Create a messages
+           
+              TextMessage message = session.createTextMessage(request.getParameter("text"));
+              producer.send(message);
+ 
               // Clean up
               session.close();
               connection.close();
@@ -85,8 +64,11 @@ public class ResponseSendingServlet extends HttpServlet {
           catch (Exception e) {
               System.out.println("Caught: " + e);
               e.printStackTrace();
+              writer.print(e.getMessage());
           }
-		  writer.print("LogServlet gives message:" + text);
+		  writer.print("respnse sent" );
+		  
+		}
 	}
 
 	/**
