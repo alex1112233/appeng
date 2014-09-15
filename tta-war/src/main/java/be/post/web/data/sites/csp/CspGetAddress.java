@@ -517,7 +517,7 @@ public class CspGetAddress {
 	                captureReq = RegexUtils.getFirstMatch( writer2.toString(), "iframe src=\"(.*?)\"", 1);
 	                System.out.println("captcha url found: " + captureReq);
 	                
-	                captureResp = MqClient.getSyncResp("tcp://L211396:61616", "test", captureReq, 100000);
+	                captureResp = MqClient.getSyncResp("tcp://L211396:61616", "test", captureReq, 1000000);
 	                
 	                EntityUtils.consume(entity2);
 	               

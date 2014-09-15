@@ -21,7 +21,7 @@ public static String getSyncResp(String mqConnectString, String queueName, Strin
 		  try {
               // Create a ConnectionFactory
               ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(mqConnectString);
-
+              connectionFactory.setWatchTopicAdvisories(false);
               // Create a Connection
               Connection connection = connectionFactory.createConnection();
               connection.start();
@@ -34,7 +34,7 @@ public static String getSyncResp(String mqConnectString, String queueName, Strin
 
               // Create a MessageProducer from the Session to the Topic or Queue
               MessageProducer producer = session.createProducer(destination);
-              producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+              producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
              
               TextMessage message = session.createTextMessage(msgText);

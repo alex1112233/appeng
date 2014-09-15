@@ -54,7 +54,7 @@ public class SyncClientTest {
               MessageConsumer consumer = session.createConsumer(tempQueue);
 
               // Wait for a message
-              Message messageRec = consumer.receive(100000);
+              Message messageRec = consumer.receive(10000);
 
               if (messageRec instanceof TextMessage) {
                   TextMessage textMessage = (TextMessage) messageRec;
