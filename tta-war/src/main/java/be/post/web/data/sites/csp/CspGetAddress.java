@@ -505,6 +505,8 @@ public class CspGetAddress {
 			   
 			   String captureResp = null;
 			   String captureReq = null;
+			   String captImgUrl = null;
+			   String captChallenge = null;
 			           
 			   try{            
 			        
@@ -517,7 +519,26 @@ public class CspGetAddress {
 	                captureReq = RegexUtils.getFirstMatch( writer2.toString(), "iframe src=\"(.*?)\"", 1);
 	                System.out.println("captcha url found: " + captureReq);
 	                
-	                captureResp = MqClient.getSyncResp("tcp://L211396:61616", "test", captureReq, 1000000);
+	                HttpUriRequest reqCapt = RequestBuilder.get()	                       
+		                       .setUri(new URI(captureReq))
+		                       .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:30.0) Gecko/20100101 Firefox/30.0")
+		                       .build();
+	               
+	                
+	                CloseableHttpResponse respCapt = httpclient.execute(reqCapt); 
+	                
+	                HttpEntity entityCapt = respCapt.getEntity();	                
+	                StringWriter writer3 = new StringWriter();
+	                IOUtils.copy(entityCapt.getContent(), writer3, "UTF-8");
+	                
+	                captureReq =  writer3.toString();
+	              	                
+	                System.out.println("reqCapt status: " + respCapt.getStatusLine() + captureReq);
+	                
+	                captImgUrl = "http://www.google.com/recaptcha/api/" + RegexUtils.getFirstMatch(captureReq, "img.*?src=\"(.*?)\"", 1);
+	                
+	                captChallenge =  RegexUtils.getFirstMatch(captureReq, "<input.*?id=\"recaptcha_challenge_field\".*?value=\"(.*?)\"", 1);
+	                captureResp = MqClient.getSyncResp("tcp://L211396:61616", "test", captImgUrl, 1000000);
 	                
 	                EntityUtils.consume(entity2);
 	               
@@ -546,7 +567,7 @@ public class CspGetAddress {
 			   	                       .addParameter("postalCode", "1000")    				
 			   	                       .addParameter("city", "")    				
 			   	                       .addParameter("feedback", "test comment")    				
-			   	                       .addParameter("recaptcha_challenge_field", captureReq)    				
+			   	                       .addParameter("recaptcha_challenge_field", captChallenge)    				
 			   	                       .addParameter("recaptcha_response_field", captureResp)    				
 			   			               .build();
 			        

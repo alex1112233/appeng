@@ -9,20 +9,24 @@ $(document).ready(function() {
            $('#stage').html('<p> Message: ' + jd.message + '</p>');
            $('#stage').append('<p>requestId : ' + jd.requestId+ '</p>');
        //    $('#stage').append('<p> Message: ' + jd.message + '</p>');
-           $("#frame").attr("src", jd.message);
+           $("#captImg").attr("src", jd.message);
            $("#reqId").attr("value", jd.requestId);          
         });
     });
     
+   
     $("#sender").click(function(event){
+  
+ 
     	
     	$.post( "sendResp", { reqId:  $("#reqId").attr("value"), text: $("#captResp").val() })
     	  .done(function( data ) {
-    	    alert( "Data Loaded: " + data );
+  	       alert( "Data Loaded: " + data );
     	  });
     	
+    	
     });
-    
+   
     
  });
  </script>
@@ -35,14 +39,14 @@ $(document).ready(function() {
  
  
  <div>
- <iframe id="frame"  src="http://google.com" width="1200" height="200" scrolling="yes"></iframe>
-      <img id="myimg" src="" alt="Sample image" />
+      <img id="captImg" src="" alt="Sample image" />
    </div>
  <input type="button" id="driver" value="Load Data" />
  
  <input id="captResp" type="text" />
  <input id="reqId" type="hidden" />
  <input type="button" id="sender" value="Send Data" />
+
  
  
 </body>

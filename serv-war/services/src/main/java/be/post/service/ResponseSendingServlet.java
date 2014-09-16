@@ -35,7 +35,6 @@ public class ResponseSendingServlet extends HttpServlet {
 		Object requestTO = httpSession.getAttribute(request.getParameter("reqId"));
 		
 		if(requestTO instanceof RequestTO){
-			
 		
 		 
 		  try {
