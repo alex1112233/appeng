@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CspLogin {
     public static void main(String[] args) throws Exception {
@@ -22,12 +24,16 @@ public class CspLogin {
         query.sendKeys("u353002");
         
         WebElement queryPwd = driver.findElement(By.name("j_password"));
-        queryPwd.sendKeys("422");
+        queryPwd.sendKeys("Sep2014");
         
-        driver.findElement(By.xpath("//input[@value='OK']")).click();
+ //       driver.findElement(By.xpath("//input[@value='OK']")).click();
 
+        WebElement myDynamicElement = (new WebDriverWait(driver, 100))
+        		  .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='tasksArea']")));
+        
+/**
         // Sleep until the div we want is visible or 5 seconds is over
-        long end = System.currentTimeMillis() + 5000;
+        long end = System.currentTimeMillis() + 25000;
         while (System.currentTimeMillis() < end) {
             WebElement resultsDiv = driver.findElement(By.xpath("//div[@id='tasksArea']"));
 
@@ -36,7 +42,7 @@ public class CspLogin {
               break;
             }
         }
-
+*/
         // And now list the suggestions
         List<WebElement> allSuggestions = driver.findElements(By.xpath("//a"));
         
